@@ -6,6 +6,7 @@ class DocumentChunk:
     document_id: int
     chunk_index: int
     content: str
+    document_title: str = ""
 
     def __post_init__(self):
         if self.document_id <= 0:
