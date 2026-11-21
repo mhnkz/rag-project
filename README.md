@@ -166,3 +166,17 @@ docker compose exec web pytest
 ## License
 
 This project was developed as an academic project.
+
+## Screenshots
+
+### Django Admin Dashboard
+![Admin Dashboard](screenshots/admin_dashboard.png)
+
+### Document Management
+![Document Management](screenshots/document_management.png)
+
+### Grounded Answer
+![Grounded Answer](screenshots/grounded_answer.png)
+
+### Relevance Guard
+![Relevance Guard](screenshots/relevance_guard.png)
