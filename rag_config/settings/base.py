@@ -138,3 +138,34 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# OpenRouter
+
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "")
+
+OPENROUTER_BASE_URL = os.getenv(
+    "OPENROUTER_BASE_URL",
+    "https://openrouter.ai/api/v1"
+)
+
+OPENROUTER_MODEL = os.getenv(
+    "OPENROUTER_MODEL",
+    ""
+)
+
+OPENROUTER_CONNECT_TIMEOUT = float(
+    os.getenv("OPENROUTER_CONNECT_TIMEOUT", "10")
+)
+
+OPENROUTER_READ_TIMEOUT = float(
+    os.getenv("OPENROUTER_READ_TIMEOUT", "60")
+)
+
+OPENROUTER_MAX_RETRIES = int(
+    os.getenv("OPENROUTER_MAX_RETRIES", "3")
+)
+
+OPENROUTER_RETRY_BACKOFF = float(
+    os.getenv("OPENROUTER_RETRY_BACKOFF", "2")
+)
