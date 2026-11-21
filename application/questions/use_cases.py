@@ -1,9 +1,11 @@
+
 from domain.rag.entities import RAGResult
 from domain.rag.repositories import Retriever
 from domain.rag.llm import LLMProvider
 from domain.rag.validators import validate_question, validate_top_k
 
 from .prompt_builder import build_prompt
+from .exceptions import QuestionValidationError, QuestionServiceError
 
 
 class AskQuestionUseCase:
@@ -20,14 +22,21 @@ class AskQuestionUseCase:
         question: str,
         top_k: int = 5
     ) -> RAGResult:
-        validate_question(question)
-        validate_top_k(top_k)
+        try:
+            validate_question(question)
+            validate_top_k(top_k)
+        except ValueError as error:
+            raise QuestionValidationError(str(error)) from error
 
-        chunks = self.retriever.retrieve(question, top_k)
+        try:
+            chunks = self.retriever.retrieve(question, top_k)
+            prompt = build_prompt(question, chunks)
+            answer = self.llm.generate(prompt)
 
-        prompt = build_prompt(question, chunks)
-
-        answer = self.llm.generate(prompt)
+        except Exception as error:
+            raise QuestionServiceError(
+                "Question answering service failed"
+            ) from error
 
         return RAGResult(
             question=question,
