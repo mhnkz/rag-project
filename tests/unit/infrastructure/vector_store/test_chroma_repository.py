@@ -1,3 +1,4 @@
+
 from unittest.mock import Mock
 
 from domain.documents.entities import DocumentChunk
@@ -39,14 +40,14 @@ def test_save_chunks():
 
     repository.save_chunks(chunks)
 
-    repository.store.upsert.assert_called_once_with(
-        ids=[
-            "doc_1_chunk_0",
-            "doc_1_chunk_1"
-        ],
+    repository.store.add_texts.assert_called_once_with(
         texts=[
             "First chunk",
             "Second chunk"
+        ],
+        ids=[
+            "doc_1_chunk_0",
+            "doc_1_chunk_1"
         ],
         metadatas=[
             {
@@ -68,7 +69,7 @@ def test_save_empty_chunks():
 
     repository.save_chunks([])
 
-    repository.store.upsert.assert_not_called()
+    repository.store.add_texts.assert_not_called()
 
 
 def test_delete_chunks():
@@ -102,7 +103,7 @@ def test_delete_chunks_when_document_has_no_chunks():
 
     repository.delete_chunks(1)
 
-    repository.store.delete.assert_called_once_with(ids=[])
+    repository.store.delete.assert_not_called()
 
 
 def test_retrieve():

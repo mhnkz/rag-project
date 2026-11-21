@@ -47,18 +47,21 @@ class ChromaRepository(DocumentChunkRepository, Retriever):
             for chunk in chunks
         ]
 
-        self.store.upsert(
-            ids=ids,
+        self.store.add_texts(
             texts=texts,
-            metadatas=metadatas
+            metadatas=metadatas,
+            ids=ids
         )
 
+    
     def delete_chunks(self, document_id: int) -> None:
-        self.store.delete(
-            ids=self.store.get(
-                where={"document_id": document_id}
-            )["ids"]
-        )
+        ids = self.store.get(
+            where={"document_id": document_id}
+        )["ids"]
+
+        if ids:
+            self.store.delete(ids=ids)
+
 
     def retrieve(
         self,
